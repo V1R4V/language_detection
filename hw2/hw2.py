@@ -59,7 +59,7 @@ def shred(filename):
     return X
 
 def compute_log_probabilities(X, e, s, p_english, p_spanish):
-    X1=X['A']
+    X1=X['A'] #is this hardcoding fine ??
     e1=e[0]
     s1=s[0]
 
@@ -75,10 +75,11 @@ def compute_log_probabilities(X, e, s, p_english, p_spanish):
     print(f"{X1_s1:.4f}")
 
 
+
     F_english= math.log(p_english)
     F_spanish = math.log(p_spanish)
 
-    for i,char in enumerate(string.ascii_uppercase):
+    for i,char in enumerate(string.ascii_uppercase): #crosscheck
         if X[char] > 0:
             F_english += X[char] * math.log(e[i])
             F_spanish += X[char] * math.log(s[i])
@@ -112,7 +113,6 @@ def main():
     e, s = get_parameter_vectors()
     X = shred(letter_file)
     compute_log_probabilities(X, e, s, p_english, p_spanish)
-
 
 if __name__ == "__main__":
     main()
