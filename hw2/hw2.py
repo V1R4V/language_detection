@@ -56,7 +56,7 @@ def shred(filename):
     print("Q1")
     for char in string.ascii_uppercase:
         print(f"{char} {X[char]}")
-
+    return X
 
 def compute_log_probabilities(X, e, s, p_english, p_spanish):
     X1=X['A']
@@ -64,11 +64,11 @@ def compute_log_probabilities(X, e, s, p_english, p_spanish):
     s1=s[0]
 
     if e[0] > 0:
-        X1_e1 = X[0] * math.log(e[0])
+        X1_e1 = X['A'] * math.log(e[0])
     else:
         X1_e1 = 0
 
-    X1_s1 = X[0] * math.log(s[0]) if s[0] > 0 else 0
+    X1_s1 = X['A'] * math.log(s[0]) if s[0] > 0 else 0
 
     print("Q2")
     print(f"{X1_e1:.4f}")
@@ -78,7 +78,7 @@ def compute_log_probabilities(X, e, s, p_english, p_spanish):
     F_english= math.log(p_english)
     F_spanish = math.log(p_spanish)
 
-    for i,char in string.ascii_uppercase:
+    for i,char in enumerate(string.ascii_uppercase):
         if X[char] > 0:
             F_english += X[char] * math.log(e[i])
             F_spanish += X[char] * math.log(s[i])
@@ -86,6 +86,19 @@ def compute_log_probabilities(X, e, s, p_english, p_spanish):
     print("Q3")
     print(f"{F_english:.4f}")
     print(f"{F_spanish:.4f}")
+
+    diff = F_spanish - F_english
+
+    if diff >= 100:
+        p_english_given_x = 0
+    elif diff <= -100:
+        p_english_given_x = 1
+    else:
+        p_english_given_x = 1 / (1 + math.exp(diff))
+
+    print("Q4")
+    print(f"{p_english_given_x:.4f}")
+
 
 def main():
     if len(sys.argv) != 4:
@@ -96,13 +109,8 @@ def main():
     p_english = float(sys.argv[2])
     p_spanish = float(sys.argv[3])
 
-    # Get parameters
     e, s = get_parameter_vectors()
-
-    # Get character counts and print Q1
     X = shred(letter_file)
-
-    # Compute and print probabilities for Q2-Q4
     compute_log_probabilities(X, e, s, p_english, p_spanish)
 
 
