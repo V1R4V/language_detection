@@ -45,14 +45,15 @@ def shred(filename):
     with open (filename, encoding='utf-8') as f:
         for line in f:
             store = line.upper().strip().split(" ")
+           # print(store)
             for key in store:
                 for char in key:
+                    #print(char)
                     if char.isascii():
                         if char.isalpha():
                             if char in X:
                                 X[char] += 1
-                            else:
-                                X[char] = 1
+
     print("Q1")
     for char in string.ascii_uppercase:
         print(f"{char} {X[char]}")
