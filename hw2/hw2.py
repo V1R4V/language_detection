@@ -60,7 +60,7 @@ def shred(filename):
     return X
 
 def compute_log_probabilities(X, e, s, p_english, p_spanish):
-    X1=X['A'] #is this hardcoding fine ??
+    X1=X['A']
     e1=e[0]
     s1=s[0]
 
